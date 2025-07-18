@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Sinh viên</title>
+    <link rel="stylesheet" href="styles_formThem.css">
+</head>
+
+<body>
+    <form id="studentForm">
+        <h2>Thêm sinh viên</h2>
+        <label for="maSV">Mã sinh viên:</label>
+        <input type="text" id="maSV" name="maSV" required>
+
+        <label for="hoTen">Họ và tên:</label>
+        <input type="text" id="hoTen" name="hoTen" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="ngaySinh">Ngày sinh:</label>
+        <input type="date" id="ngaySinh" name="ngaySinh">
+        <label>Giới tính:</label>
+        <div class="gender-group">
+            <label><input type="radio" name="gioiTinh" value="Nam"> Nam</label>
+            <label><input type="radio" name="gioiTinh" value="Nữ"> Nữ</label>
+        </div>
+
+        <label for="ghiChu">Ghi chú:</label>
+        <textarea id="ghiChu" name="ghiChu"></textarea>
+
+        <button type="submit">Thêm sinh viên</button>
+    </form>
+
+</body>
+
+</html>
