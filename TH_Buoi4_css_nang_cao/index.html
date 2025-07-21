@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QLy Sinh viên </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <style>
+        .btn:hover {
+            background-color: #fff;
+            color: #007bff;
+            font-weight: bold;
+            border: 1px solid #007bff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">QLy Sinh viên </a>
+
+            <form class="d-flex ms-auto" role="search">
+                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+            </form>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Form -->
+            <div class="col-lg-4 mb-4">
+                <h4>Thêm sinh viên</h4>
+                <form>
+                    <div class="mb-3">
+                        <label for="maSv" class="form-label">Mã SV</label>
+                        <input type="text" class="form-control" id="maSv">
+                    </div>
+                    <div class="mb-3">
+                        <label for="hoTen" class="form-label">Họ tên</label>
+                        <input type="text" class="form-control" id="hoTen">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="gioiTinh" class="form-label">Giới tính</label>
+                        <select class="form-select" id="gioiTinh">
+                            <option>Nam</option>
+                            <option>Nữ</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ngaySinh" class="form-label">Ngày sinh</label>
+                        <input type="date" class="form-control" id="ngaySinh">
+                    </div>
+                    <button type="submit" class="btn btn-success">Thêm mới</button>
+                </form>
+            </div>
+
+            <!-- Danh sách sinh viên -->
+            <div class="col-lg-8">
+                <h4>Danh sách sinh viên</h4>
+                <table class="table table-bordered table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã SV</th>
+                            <th>Họ tên</th>
+                            <th>Email</th>
+                            <th>Giới tính</th>
+                            <th>Ngày sinh</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>SV001</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>a.nguyen@gmail.com</td>
+                            <td>Nam</td>
+                            <td>2000-01-01</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Sửa</button>
+                                <button class="btn btn-danger btn-sm">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>SV002</td>
+                            <td>Nguyễn Văn B</td>
+                            <td>b.tran@gmail.com</td>
+                            <td>Nữ</td>
+                            <td>2001-02-15</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Sửa</button>
+                                <button class="btn btn-danger btn-sm">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>SV003</td>
+                            <td>Nguyễn Văn C</td>
+                            <td>c123n@gmail.com</td>
+                            <td>Nữ</td>
+                            <td>2001-02-15</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Sửa</button>
+                                <button class="btn btn-danger btn-sm">Xóa</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
