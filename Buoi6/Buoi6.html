@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sinh viên</title>
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 6px;
+    }
+
+    .success {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <form id="formSinhVien">
+    <h3>Thêm sinh viên</h3>
+    <label for="maSV">Mã sinh viên:</label>
+    <input type="text" id="maSV" name="maSV" required><br><br>
+
+    <label for="hoTen">Họ và tên:</label>
+    <input type="text" id="hoTen" name="hoTen" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="ngaySinh">Ngày sinh:</label>
+    <input type="date" id="ngaySinh" name="ngaySinh"><br><br>
+
+    <label>Giới tính:</label>
+    <input type="radio" id="nam" name="gioiTinh" value="Nam">
+    <label for="nam">Nam</label>
+    <input type="radio" id="nu" name="gioiTinh" value="Nữ">
+    <label for="nu">Nữ</label><br><br>
+
+    <button type="submit">Thêm sinh viên</button>
+    <div id="thongBao" class="success"></div>
+  </form>
+
+  <h3>Danh sách sinh viên</h3>
+  <table id="bangSinhVien">
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Mã SV</th>
+        <th>Họ tên</th>
+        <th>Email</th>
+        <th>Giới tính</th>
+        <th>Ngày sinh</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Dòng sinh viên sẽ được thêm ở đây -->
+    </tbody>
+  </table>
+
+  <script>
+    let stt = 1;
+
+    document.getElementById("formSinhVien").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const maSV = document.getElementById("maSV").value;
+      const hoTen = document.getElementById("hoTen").value;
+      const email = document.getElementById("email").value;
+      const ngaySinh = document.getElementById("ngaySinh").value;
+      const gioiTinh = document.querySelector('input[name="gioiTinh"]:checked')?.value || "";
+
+      const table = document.getElementById("bangSinhVien").getElementsByTagName("tbody")[0];
+      const newRow = table.insertRow();
+
+      newRow.insertCell(0).innerText = stt++;
+      newRow.insertCell(1).innerText = maSV;
+      newRow.insertCell(2).innerText = hoTen;
+      newRow.insertCell(3).innerText = email;
+      newRow.insertCell(4).innerText = gioiTinh;
+      newRow.insertCell(5).innerText = ngaySinh;
+      newRow.insertCell(6).innerHTML = `
+                <button onclick="suaDong(this)">Sửa</button>
+                <button onclick="xoaDong(this)">Xoá</button>
+            `;
+
+      document.getElementById("thongBao").innerText = "Thêm sinh viên thành công!";
+      setTimeout(() => {
+        document.getElementById("thongBao").innerText = "";
+      }, 3000);
+
+      this.reset();
+    });
+
+
+  </script>
+</body>
+
+</html>
