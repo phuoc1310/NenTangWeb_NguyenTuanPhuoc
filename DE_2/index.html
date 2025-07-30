@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý giao dịch</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="data.js"></script>
+</head>
+
+<body class="p-4">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">TLU</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" href="#">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Quản lý cửa hàng</a>
+                    </li>
+                </ul>
+                <form class="d-flex ms-3">
+                    <input class="form-control me-2" type="search" placeholder="Search" />
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- TOOLBAR -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTransactionModal">➕ THÊM</button>
+            <button class="btn btn-outline-dark">⬇️ XUẤT RA FILE</button>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Tìm kiếm giao dịch" />
+                <button class="btn btn-outline-secondary" type="button">🔍</button>
+            </div>
+            <div class="form-group d-flex align-items-center">
+                <label class="me-2 mb-0">Kết quả</label>
+                <select class="form-select" style="width: 80px;">
+                    <option>5</option>
+                    <option>10</option>
+                    <option>20</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <table class="table table-bordered align-middle">
+        <thead class="table-dark text-center">
+            <tr>
+                <th><input type="checkbox" /></th>
+                <th>Hành động</th>
+                <th>ID</th>
+                <th>Khách hàng</th>
+                <th>Nhân viên</th>
+                <th>Số tiền</th>
+                <th>Ngày mua</th>
+            </tr>
+        </thead>
+        <tbody class="text-center"></tbody>
+    </table>
+
+    <!-- Delete Selected -->
+    <button class="btn btn-danger mt-2">DELETE SELECTED RECORDS</button>
+
+    <!-- MODAL: THÊM GIAO DỊCH -->
+    <div class="modal fade" id="addTransactionModal" tabindex="-1" aria-labelledby="addTransactionLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTransactionLabel">Thêm giao dịch mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="addTransactionForm">
+                        <div class="mb-3">
+                            <label for="transactionID" class="form-label">ID</label>
+                            <input type="number" class="form-control" id="transactionID" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="customerName" class="form-label">Khách hàng</label>
+                            <input type="text" class="form-control" id="customerName" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="employeeName" class="form-label">Nhân viên</label>
+                            <input type="text" class="form-control" id="employeeName" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Số tiền</label>
+                            <input type="text" class="form-control" id="amount" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="purchaseDate" class="form-label">Ngày mua</label>
+                            <input type="datetime-local" class="form-control" id="purchaseDate" required>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" form="addTransactionForm" class="btn btn-success">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+</body>
+
+<script>
+    let editIndex = null;
+
+    // Hiển thị danh sách giao dịch ra bảng
+    function renderTransactions() {
+        const tbody = document.querySelector("table tbody");
+        tbody.innerHTML = "";
+
+        transactions.forEach((tx, index) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+        <td><input type="checkbox" class="row-checkbox" data-index="${index}" /></td>
+        <td>
+          <button class="btn btn-sm btn-primary">👁️</button>
+          <button class="btn btn-sm btn-warning btn-edit" data-index="${index}">✏️</button>
+          <button class="btn btn-sm btn-danger btn-delete" data-index="${index}">🗑️</button>
+        </td>
+        <td>${tx.id}</td>
+        <td>${tx.customer}</td>
+        <td>${tx.employee}</td>
+        <td>${tx.amount}</td>
+        <td>${new Date(tx.date).toLocaleString('vi-VN')}</td>
+      `;
+            tbody.appendChild(tr);
+        });
+
+        // Sự kiện xoá
+        document.querySelectorAll(".btn-delete").forEach(btn => {
+            btn.addEventListener("click", function () {
+                const index = this.getAttribute("data-index");
+                transactions.splice(index, 1);
+                renderTransactions();
+            });
+        });
+
+        // Sự kiện sửa
+        document.querySelectorAll(".btn-edit").forEach(btn => {
+            btn.addEventListener("click", function () {
+                const index = this.getAttribute("data-index");
+                const tx = transactions[index];
+
+                // Đổ dữ liệu vào form
+                document.getElementById("transactionID").value = tx.id;
+                document.getElementById("customerName").value = tx.customer;
+                document.getElementById("employeeName").value = tx.employee;
+                document.getElementById("amount").value = tx.amount;
+                document.getElementById("purchaseDate").value = tx.date;
+
+                editIndex = index;
+
+                // Hiển thị modal
+                const modal = new bootstrap.Modal(document.getElementById('addTransactionModal'));
+                modal.show();
+            });
+        });
+    }
+
+    // Gọi khi load trang
+    window.addEventListener("DOMContentLoaded", renderTransactions);
+
+    document.getElementById("addTransactionForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const id = document.getElementById("transactionID").value.trim();
+        const customer = document.getElementById("customerName").value.trim();
+        const employee = document.getElementById("employeeName").value.trim();
+        const amount = document.getElementById("amount").value.trim();
+        const date = document.getElementById("purchaseDate").value.trim();
+
+        // Kiểm tra các trường không được bỏ trống
+        if (!id || !customer || !employee || !amount || !date) {
+            alert("Vui lòng nhập đầy đủ tất cả các trường thông tin.");
+            return;
+        }
+
+        // Kiểm tra ID là số
+        if (isNaN(id)) {
+            alert("ID phải là một số.");
+            return;
+        }
+
+        // Kiểm tra độ dài tên khách hàng
+        if (customer.length > 30) {
+            alert("Tên khách hàng không được vượt quá 30 ký tự.");
+            return;
+        }
+
+        // Kiểm tra độ dài tên nhân viên
+        if (employee.length > 30) {
+            alert("Tên nhân viên không được vượt quá 30 ký tự.");
+            return;
+        }
+
+        // Kiểm tra số tiền là số
+        if (isNaN(amount.replace(/\s/g, ''))) {
+            alert("Số tiền phải là một số hợp lệ.");
+            return;
+        }
+
+        // Tạo đối tượng giao dịch mới
+        const newTransaction = {
+            id: Number(id),
+            customer,
+            employee,
+            amount: parseFloat(amount.replace(/\s/g, '')),
+            date
+        };
+
+        if (editIndex !== null) {
+            transactions[editIndex] = newTransaction;
+            alert("Cập nhật giao dịch thành công!");
+            editIndex = null;
+        } else {
+            transactions.push(newTransaction);
+            alert("Thêm giao dịch mới thành công!");
+        }
+
+        renderTransactions();
+        this.reset();
+
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addTransactionModal'));
+        modal.hide();
+    });
+    // Xoá các dòng được chọn
+    document.querySelector(".btn-danger.mt-2").addEventListener("click", () => {
+        const checkedBoxes = document.querySelectorAll(".row-checkbox:checked");
+        const indexesToDelete = Array.from(checkedBoxes).map(cb => Number(cb.dataset.index));
+
+        indexesToDelete.sort((a, b) => b - a).forEach(index => transactions.splice(index, 1));
+
+        renderTransactions();
+    });
+</script>
+
+</html>
